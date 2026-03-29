@@ -38,4 +38,50 @@ const destroy: RequestHandler = async (req, res) => {
   res.sendStatus(204);
 };
 
-export default { browse, read, add, edit, destroy };
+const validate: RequestHandler = (req, res, next) => {
+  type ValidationError = {
+    field: string;
+    message: string;
+  };
+
+  const errors: ValidationError[] = [];
+
+  const { title, synopsis, poster, country, year, category_id } = req.body;
+
+  if (title == null) {
+    errors.push({ field: "title", message: "The field is required" });
+  } else if (title.length > 255) {
+    errors.push({
+      field: "title",
+      message: "Should contain less than 255 characters",
+    });
+  }
+
+  if (synopsis == null) {
+    errors.push({ field: "synopsis", message: "The field is required" });
+  }
+
+  if (poster == null) {
+    errors.push({ field: "poster", message: "The field is required" });
+  }
+
+  if (country == null) {
+    errors.push({ field: "country", message: "The field is required" });
+  }
+
+  if (year == null) {
+    errors.push({ field: "year", message: "The field is required" });
+  }
+
+  if (category_id == null) {
+    errors.push({ field: "category_id", message: "The field is required" });
+  }
+
+  if (errors.length === 0) {
+    next();
+  } else {
+    res.status(400).json({ validationErrors: errors });
+  }
+};
+
+export default { browse, read, add, edit, destroy, validate };
