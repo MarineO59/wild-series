@@ -2,6 +2,7 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { RouterProvider, createBrowserRouter } from "react-router";
+import Programs from "./pages/Programs";
 
 /* ************************************************************************* */
 
@@ -24,6 +25,10 @@ const router = createBrowserRouter([
     element: <App />, // Renders the App component for the home page
   },
   // Try adding a new route! For example, "/about" with an About component
+  {
+    path: "/programs",
+    element: <Programs />,
+  },
 ]);
 
 /* ************************************************************************* */
